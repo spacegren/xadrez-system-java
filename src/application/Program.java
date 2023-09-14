@@ -2,6 +2,7 @@ package application;
 
 import boardgame.Board;
 import boardgame.Position;
+import chess.ChassMatch;
 
 import java.util.Locale;
 import java.util.Scanner;
@@ -14,8 +15,12 @@ public class Program {
         Locale.setDefault(Locale.US);
         Scanner scanner = new Scanner(System.in);
 
+        ChassMatch chassMatch = new ChassMatch();
+        UI.printBoard(chassMatch.getPeace());
 
-        Board board = new Board(8,8);
+
+
+
 
     }
 }

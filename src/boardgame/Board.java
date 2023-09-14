@@ -30,4 +30,11 @@ public class Board {
         this.columns = columns;
     }
 
+    public Peace peace(int rows , int columns) {
+        return peaces[rows][columns];
+    }
+    public Peace peace(Position position){
+        return peaces[position.getRow()][position.getColumn()];
+    }
+
 }
