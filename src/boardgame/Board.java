@@ -25,11 +25,11 @@ public class Board {
         return columns;
     }
 
-    public Peace peace(int rows , int columns) {
-        if (!positionExists(rows, columns)){
+    public Peace peace(int row, int column) {
+        if (!positionExists(row, column)){
             throw new BoardExeption("POSITION NOT ON THE BOARD : ");
         }
-        return peaces[rows][columns];
+        return peaces[row][column];
 
     }
     public Peace peace(Position position){
@@ -42,11 +42,12 @@ public class Board {
         if (thereIsaPeace(position)){
             throw new BoardExeption("there is alredy a piace on position" + position);
         }
+
         peaces[position.getRow()][position.getColumn()] = peace;
         peace.position = position;
     }
-    private boolean positionExists(int rows , int columns){
-        return rows >= 0 && rows < rows && columns >= 0 && columns < columns;
+    private boolean positionExists(int row , int column){
+        return row >= 0 && row < rows && column >= 0 && column < columns;
     }
     public boolean positionExists(Position position){
         return positionExists(position.getRow() , position.getColumn());

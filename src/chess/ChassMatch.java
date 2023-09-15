@@ -21,13 +21,17 @@ public class ChassMatch {
         }
         return mat;
     }
-    private void initialSetup(){
-        board.placePeace(new Rook(board , Color.WHITE) , new Position(2,1));
-        board.placePeace(new King(board ,Color.BLACK) , new Position(2,1));
-        board.placePeace(new King(board ,Color.BLACK) , new Position(2,1));
-
-
+    //OPERAÇAO DE COLOCLAR PEÇAS PASSANDO A POSIÇAO  NAS COORDENADAS DO XADREZ
+    private void placeNewPiece(char column , int rows , ChessPeace peace){
+        board.placePeace(peace , new ChessPosition(column ,rows).toPosition());
 
     }
+    private void initialSetup(){
+        placeNewPiece('b' , 6 , new Rook(board , Color.WHITE));
+        placeNewPiece('e' , 8 , new King(board ,Color.BLACK));
+        placeNewPiece('e' , 1, new King(board , Color.WHITE));
+
+    }
+
 
 }

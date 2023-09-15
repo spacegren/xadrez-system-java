@@ -19,8 +19,5 @@ public class Program {
         UI.printBoard(chassMatch.getPeace());
 
 
-
-
-
     }
 }
