@@ -45,8 +45,8 @@ public class Board {
         peaces[position.getRow()][position.getColumn()] = peace;
         peace.position = position;
     }
-    private boolean positionExists(int rows , int columns){
-        return rows >= 0 && rows < rows && columns >= 0 && columns < columns;
+    private boolean positionExists(int row , int column){
+        return row >= 0 && row < rows && column >= 0 && column < columns;
     }
     public boolean positionExists(Position position){
         return positionExists(position.getRow() , position.getColumn());
