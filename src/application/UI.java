@@ -2,7 +2,11 @@ package application;
 
 import boardgame.Peace;
 import chess.ChessPeace;
+import chess.ChessPosition;
 import chess.Color;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class UI {
 
@@ -28,6 +32,19 @@ public class UI {
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
     // https://stackoverflow.com/questions/2979383/java-clear-the-console
+
+
+    public static ChessPosition readChessPosition(Scanner scanner){
+        try {
+            String s = scanner.nextLine();
+            char column = s.charAt(0);
+            int row = Integer.parseInt(s.substring(1));
+            return new ChessPosition(column, row);
+        }
+        catch (RuntimeException e){
+            throw new InputMismatchException("ERROR READING CHASSPOSITION. VALID VALUES ARE FROM A1 TO H8");
+        }
+    }
 
     public static void printBoard(ChessPeace[][] peaces){
         for (int i=0; i< peaces.length; i++){

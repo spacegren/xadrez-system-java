@@ -3,6 +3,8 @@ package application;
 import boardgame.Board;
 import boardgame.Position;
 import chess.ChassMatch;
+import chess.ChessPeace;
+import chess.ChessPosition;
 
 import java.util.Locale;
 import java.util.Scanner;
@@ -16,7 +18,20 @@ public class Program {
         Scanner scanner = new Scanner(System.in);
 
         ChassMatch chassMatch = new ChassMatch();
-        UI.printBoard(chassMatch.getPeace());
+
+       while (true){
+           UI.printBoard(chassMatch.getPeace());
+           System.out.println();
+           System.out.print("source : ");
+           ChessPosition source = UI.readChessPosition(scanner);
+
+           System.out.println();
+           System.out.println("target : ");
+           ChessPosition target = UI.readChessPosition(scanner);
+
+           ChessPeace capturedPeace = chassMatch.performChessMove(source , target);
+       }
+
 
 
     }

@@ -42,9 +42,21 @@ public class Board {
         if (thereIsaPeace(position)){
             throw new BoardExeption("there is alredy a piace on position" + position);
         }
-
         peaces[position.getRow()][position.getColumn()] = peace;
         peace.position = position;
+    }
+
+    public Peace removePeace(Position position){
+        if (!positionExists(position)){
+            throw new BoardExeption("position not on  the board");
+        }
+        if (peace(position) == null){
+            return null;
+        }
+        Peace aux = peace(position);
+        aux.position = null;
+        peaces[position.getRow()][position.getColumn()] = null;
+        return aux;
     }
     private boolean positionExists(int row , int column){
         return row >= 0 && row < rows && column >= 0 && column < columns;
