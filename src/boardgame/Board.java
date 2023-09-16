@@ -25,11 +25,11 @@ public class Board {
         return columns;
     }
 
-    public Peace peace(int rows , int columns) {
-        if (!positionExists(rows, columns)){
+    public Peace peace(int row, int column) {
+        if (!positionExists(row, column)){
             throw new BoardExeption("POSITION NOT ON THE BOARD : ");
         }
-        return peaces[rows][columns];
+        return peaces[row][column];
 
     }
     public Peace peace(Position position){
@@ -42,6 +42,7 @@ public class Board {
         if (thereIsaPeace(position)){
             throw new BoardExeption("there is alredy a piace on position" + position);
         }
+
         peaces[position.getRow()][position.getColumn()] = peace;
         peace.position = position;
     }
