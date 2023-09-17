@@ -42,6 +42,10 @@ public class ChassMatch {
         if (!board.thereIsaPeace(position)){
             throw new BoardExeption("there is no peace on source position");
         }
+        if (board.peace(position).isThereAnyPossibleMoves()){
+            throw new ChessExeption("there is no possible moves for the chosen piece : ");
+
+        }
     }
     private void placeNewPiece(char column , int row , ChessPeace peace){
         board.placePeace(peace , new ChessPosition(column , row).toPosition());
