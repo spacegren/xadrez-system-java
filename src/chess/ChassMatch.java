@@ -27,6 +27,7 @@ public class ChassMatch {
         Position source = sourcePosition.toPosition();
         Position target = targetPosition.toPosition();
         validateSourcePosition(source);
+        validateTargetPostion(source ,target);
         Peace capturedPeace = makeMove(source , target);
         return (ChessPeace) capturedPeace;
     }
@@ -45,6 +46,12 @@ public class ChassMatch {
         if (board.peace(position).isThereAnyPossibleMoves()){
             throw new ChessExeption("there is no possible moves for the chosen piece : ");
 
+        }
+    }
+
+    private void validateTargetPostion(Position source , Position target){
+        if (!board.peace(source) .possibleMoves(target)){
+            throw new ChessExeption("the chosen peace can´t move to target");
         }
     }
     private void placeNewPiece(char column , int row , ChessPeace peace){
