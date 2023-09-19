@@ -46,7 +46,7 @@ public class ChassMatch {
 
     private void validateSourcePosition(Position position){
         if (!board.thereIsaPeace(position)){
-            throw new BoardExeption("there is no peace on source position");
+            throw new BoardExeption("there is no peace on the  source position");
         }
         if (board.peace(position).isThereAnyPossibleMoves()){
             throw new ChessExeption("there is no possible moves for the chosen piece : ");
@@ -55,7 +55,7 @@ public class ChassMatch {
     }
 
     private void validateTargetPostion(Position source , Position target){
-        if (!board.peace(source) .possibleMoves(target)){
+        if (!board.peace(source) .possibleMoves()[target.getRow()][target.getColumn()]){
             throw new ChessExeption("the chosen peace can´t move to target");
         }
     }
