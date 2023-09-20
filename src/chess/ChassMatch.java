@@ -7,10 +7,15 @@ import boardgame.Position;
 import chess.pieces.King;
 import chess.pieces.Rook;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChassMatch {
     private Board board;
     private int turn;
     private Color currentPlayer;
+    private List<Peace> peacesOnTheBoards = new ArrayList<>();
+    private List<Peace> capturedPeaces = new ArrayList<>();
 
     public ChassMatch(){
         board = new Board(8,8);
@@ -56,7 +61,14 @@ public class ChassMatch {
         Peace p = board.removePeace(source);
         Peace capturedPeace = board.removePeace(target);
         board.placePeace(p , target);
+
+        if (capturedPeace != null){
+            peacesOnTheBoards.remove(capturedPeace);
+            capturedPeaces.add(capturedPeace);
+
+        }
         return capturedPeace;
+
     }
 
     private void validateSourcePosition(Position position){
@@ -87,6 +99,7 @@ public class ChassMatch {
     }
     private void placeNewPiece(char column , int row , ChessPeace peace){
         board.placePeace(peace , new ChessPosition(column , row).toPosition());
+        peacesOnTheBoards.add(peace);
     }
     private void initialSetup(){
 

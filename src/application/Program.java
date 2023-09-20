@@ -7,9 +7,7 @@ import chess.ChessExeption;
 import chess.ChessPeace;
 import chess.ChessPosition;
 
-import java.util.InputMismatchException;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 public class Program {
     public static void main(String[] args) {
@@ -20,11 +18,12 @@ public class Program {
         Scanner scanner = new Scanner(System.in);
 
         ChassMatch chassMatch = new ChassMatch();
+        List<ChessPeace> captured = new ArrayList<>();
 
        while (true){
            try {
                UI.clearScreen();
-               UI.printMatch(chassMatch);
+               UI.printMatch(chassMatch , captured);
                System.out.println();
                System.out.print("source : ");
                ChessPosition source = UI.readChessPosition(scanner);
@@ -37,6 +36,11 @@ public class Program {
                ChessPosition target = UI.readChessPosition(scanner);
 
                ChessPeace capturedPeace = chassMatch.performChessMove(source, target);
+
+               if (capturedPeace != null){
+                   captured.add(capturedPeace);
+
+               }
            }
            catch (ChessExeption e){
                System.out.println(e.getMessage());
@@ -46,6 +50,8 @@ public class Program {
                System.out.println(e.getMessage());
                scanner.nextLine();
            }
+
+
        }
 
     }

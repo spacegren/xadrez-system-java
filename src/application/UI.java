@@ -6,8 +6,8 @@ import chess.ChessPeace;
 import chess.ChessPosition;
 import chess.Color;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class UI {
 
@@ -54,8 +54,10 @@ public class UI {
             throw new InputMismatchException("ERROR READING CHASSPOSITION. VALID VALUES ARE FROM A1 TO H8");
         }
     }
-    public static void printMatch(ChassMatch chassMatch){
+    public static void printMatch(ChassMatch chassMatch , List<ChessPeace> captured){
         printBoard(chassMatch.getPeace());
+        System.out.println();
+        printCapturedPeace(captured);
         System.out.println();
         System.out.println("turn : " + chassMatch.getTurn());
         System.out.println("waiting player :" + chassMatch.getCurrentPlayer());
@@ -101,6 +103,20 @@ public class UI {
             }
         }
         System.out.print(" ");
+    }
+
+    private static void printCapturedPeace(List<ChessPeace> captured){
+        List<ChessPeace> white = captured.stream().filter( x -> x.getColor() == Color.WHITE).collect(Collectors.toList());
+        List<ChessPeace> black = captured.stream().filter(x -> x.getColor() == Color.BLACK).collect(Collectors.toList());
+        System.out.println("captures peaces ");
+        System.out.println(white);
+        System.out.println(ANSI_WHITE);
+        System.out.println(Arrays.toString(white.toArray()));
+        System.out.println(ANSI_RESET);
+        System.out.println(black);
+        System.out.println(ANSI_YELLOW);
+        System.out.println(Arrays.toString(black.toArray()));
+        System.out.println(ANSI_RESET);
     }
 
 }
