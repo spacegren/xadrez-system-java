@@ -17,6 +17,10 @@ public abstract class ChessPeace extends Peace {
         return color;
     }
 
+    public ChessPosition getChessPosition(){
+        return ChessPosition.fromPosition(position);
+    }
+
     protected boolean isThereOpponentPeace(Position position){
         ChessPeace p = (ChessPeace) getBoard().peace(position);
         return p != null && p.getColor() != color;
