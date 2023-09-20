@@ -1,6 +1,7 @@
 package application;
 
 import boardgame.Peace;
+import chess.ChassMatch;
 import chess.ChessPeace;
 import chess.ChessPosition;
 import chess.Color;
@@ -52,6 +53,14 @@ public class UI {
         catch (RuntimeException e){
             throw new InputMismatchException("ERROR READING CHASSPOSITION. VALID VALUES ARE FROM A1 TO H8");
         }
+    }
+    public static void printMatch(ChassMatch chassMatch){
+        printBoard(chassMatch.getPeace());
+        System.out.println();
+        System.out.println("turn : " + chassMatch.getTurn());
+        System.out.println("waiting player :" + chassMatch.getCurrentPlayer());
+
+
     }
 
     public static void printBoard(ChessPeace[][] peaces){

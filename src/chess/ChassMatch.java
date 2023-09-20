@@ -9,11 +9,25 @@ import chess.pieces.Rook;
 
 public class ChassMatch {
     private Board board;
+    private int turn;
+    private Color currentPlayer;
 
     public ChassMatch(){
         board = new Board(8,8);
+        turn = 1;
+        currentPlayer = Color.WHITE;
         initialSetup();
     }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public Color getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+
     public ChessPeace[][] getPeace(){
         ChessPeace[][] mat = new ChessPeace[board.getRows()][board.getColumns()];
         for (int i=0; i< board.getRows(); i++){
@@ -34,6 +48,7 @@ public class ChassMatch {
         validateSourcePosition(source);
         validateTargetPostion(source ,target);
         Peace capturedPeace = makeMove(source , target);
+        nextTurn();
         return (ChessPeace) capturedPeace;
     }
 
@@ -48,16 +63,27 @@ public class ChassMatch {
         if (!board.thereIsaPeace(position)){
             throw new BoardExeption("there is no peace on the  source position");
         }
-        if (board.peace(position).isThereAnyPossibleMoves()){
-            throw new ChessExeption("there is no possible moves for the chosen piece : ");
-
+        //ultilizando o downcasting
+        if (currentPlayer != ((ChessPeace)board.peace(position)).getColor());{
+            throw new ChessExeption("the chosen peace is not yours :");
         }
+        //if (!board.peace(position).isThereAnyPossibleMoves()){
+        //    throw new ChessExeption("theres is no possible moves for the chosen peace :");
+       // }
     }
 
     private void validateTargetPostion(Position source , Position target){
         if (!board.peace(source) .possibleMoves()[target.getRow()][target.getColumn()]){
             throw new ChessExeption("the chosen peace can´t move to target");
         }
+    }
+
+    // trocadeturno
+    private void nextTurn(){
+        turn++;
+        currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
+
+
     }
     private void placeNewPiece(char column , int row , ChessPeace peace){
         board.placePeace(peace , new ChessPosition(column , row).toPosition());
