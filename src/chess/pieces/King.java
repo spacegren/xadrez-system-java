@@ -33,7 +33,7 @@ public class King  extends ChessPeace {
         }
 
         //bellow
-        p.setValues(position.getRow() +1 , position.getColumn() );
+        p.setValues(position.getRow() +1 , position.getColumn());
         if (getBoard().positionExists(p) && (canMove(p))) {
             mat[p.getRow()][p.getColumn()] = true;
         }

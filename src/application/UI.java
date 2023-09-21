@@ -62,6 +62,10 @@ public class UI {
         System.out.println("turn : " + chassMatch.getTurn());
         System.out.println("waiting player :" + chassMatch.getCurrentPlayer());
 
+        if (chassMatch.getCheck()){
+            System.out.println("CHECK");
+        }
+
 
     }
 

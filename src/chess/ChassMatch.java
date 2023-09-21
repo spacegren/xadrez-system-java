@@ -36,6 +36,10 @@ public class ChassMatch {
         return currentPlayer;
     }
 
+    public boolean getCheck(){
+        return check;
+    }
+
 
     public ChessPeace[][] getPeace(){
         ChessPeace[][] mat = new ChessPeace[board.getRows()][board.getColumns()];
@@ -57,6 +61,14 @@ public class ChassMatch {
         validateSourcePosition(source);
         validateTargetPostion(source ,target);
         Peace capturedPeace = makeMove(source , target);
+
+        if (testCheck(currentPlayer)){
+            UndoMove(source, target , capturedPeace);
+            throw new ChessExeption("you can´t put yourself in check");
+        }
+        check = (testCheck(opponent(currentPlayer))) ? true:false;
+
+
         nextTurn();
         return (ChessPeace) capturedPeace;
     }
@@ -125,8 +137,22 @@ public class ChassMatch {
             }
         }
         throw new IllegalStateException("there is no "+ color + "king on the board :");
-        
+
     }
+
+    private boolean testCheck(Color color){
+        Position kingPosition = king(color).getChessPosition().toPosition();
+        List<Peace> opponentPeaces = peacesOnTheBoards.stream().filter(x -> ((ChessPeace)x).getColor() == opponent(color)).collect(Collectors.toList());
+
+        for (Peace p : opponentPeaces){
+            boolean [][] mat = p.possibleMoves();
+            if (mat[kingPosition.getRow()][kingPosition.getColumn()]){
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void placeNewPiece(char column , int row , ChessPeace peace){
         board.placePeace(peace , new ChessPosition(column , row).toPosition());
         peacesOnTheBoards.add(peace);
