@@ -60,10 +60,17 @@ public class UI {
         printCapturedPeace(captured);
         System.out.println();
         System.out.println("turn : " + chassMatch.getTurn());
-        System.out.println("waiting player :" + chassMatch.getCurrentPlayer());
 
-        if (chassMatch.getCheck()){
-            System.out.println("CHECK");
+        if (!chassMatch.getCheckMate()) {
+            System.out.println("waiting player :" + chassMatch.getCurrentPlayer());
+
+            if (chassMatch.getCheck()) {
+                System.out.println("CHECK");
+            }
+        }else {
+            System.out.println("CHECKMATE");
+            System.out.println("WINNER : " + chassMatch.getCurrentPlayer());
+
         }
 
 

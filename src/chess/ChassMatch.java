@@ -16,6 +16,8 @@ public class ChassMatch {
     private int turn;
     private Color currentPlayer;
     private boolean check;
+    private boolean checkMate;
+
 
 
     private List<Peace> peacesOnTheBoards = new ArrayList<>();
@@ -38,6 +40,9 @@ public class ChassMatch {
 
     public boolean getCheck(){
         return check;
+    }
+    public boolean getCheckMate(){
+        return checkMate;
     }
 
 
@@ -68,8 +73,12 @@ public class ChassMatch {
         }
         check = (testCheck(opponent(currentPlayer))) ? true:false;
 
-
-        nextTurn();
+        if (testCheckMate(currentPlayer)){
+            checkMate = true;
+        }
+        else {
+            nextTurn();
+        }
         return (ChessPeace) capturedPeace;
     }
 
@@ -153,21 +162,51 @@ public class ChassMatch {
         return false;
     }
 
+
+    //logica check mate
+
+    private boolean testCheckMate(Color color){
+        if (!testCheck(color)){
+            return false;
+        }
+        List<Peace> list = peacesOnTheBoards.stream().filter(x -> ((ChessPeace)x).getColor() == color).collect(Collectors.toList());
+        for (Peace p : list){
+            boolean[][] mat = p.possibleMoves();
+            for(int i=0; i<board.getRows(); i++){
+                for (int j=0; j< board.getColumns(); j++){
+                    if (mat[i][j]){
+                        Position source = ((ChessPeace)p).getChessPosition().toPosition();
+                        Position target = new Position(i,j);
+                        Peace capturedPeace = makeMove(source , target);
+                        boolean testCheck = testCheck(color);
+                        UndoMove(source ,target , capturedPeace);
+                        if (!testCheck){
+                        return false;
+                         }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
     private void placeNewPiece(char column , int row , ChessPeace peace){
         board.placePeace(peace , new ChessPosition(column , row).toPosition());
         peacesOnTheBoards.add(peace);
     }
     private void initialSetup(){
 
-        placeNewPiece('c', 1, new Rook(board, Color.WHITE));
-        placeNewPiece('c', 2, new Rook(board, Color.WHITE));
-        placeNewPiece('d', 2, new Rook(board, Color.WHITE));
-        placeNewPiece('e', 2, new King(board, Color.WHITE));
 
-        placeNewPiece('c', 7, new Rook(board, Color.BLACK));
-        placeNewPiece('c', 8, new Rook(board, Color.BLACK));
-        placeNewPiece('d', 7, new Rook(board, Color.BLACK));
-        placeNewPiece('e', 7, new King(board, Color.BLACK));
+
+        // nesta posiçao de teste para nao perder muito tempo fics mais facil para dar um check mate;
+
+        placeNewPiece('h', 7, new Rook(board, Color.WHITE));
+        placeNewPiece('d', 1, new Rook(board, Color.WHITE));
+        placeNewPiece('e', 1, new King(board, Color.WHITE));
+
+        placeNewPiece('b', 8, new Rook(board, Color.BLACK));
+        placeNewPiece('a', 8, new King(board, Color.BLACK));
+
 
 
 
