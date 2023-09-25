@@ -10,6 +10,7 @@ public class Pawn extends ChessPeace {
 
     private ChassMatch chassMatch;
 
+
     public Pawn(Board board, Color color, ChassMatch chassMatch) {
         super(board, color);
         this.chassMatch = chassMatch;
@@ -39,6 +40,19 @@ public class Pawn extends ChessPeace {
             if (getBoard().positionExists(p) && isThereOpponentPeace(p)) {
                 mat[p.getRow()][p.getColumn()] = true;
             }
+
+            //# special move enpasssant white
+
+            if (position.getRow() == 3){
+                Position Left = new Position(position.getRow() , position.getColumn() -1);
+                if (getBoard().positionExists(Left) && isThereOpponentPeace(Left) && getBoard().peace(Left) == chassMatch.getEnpassantVulnerable()){
+                    mat[Left.getRow() -1][Left.getColumn()] = true;
+                }
+                Position Right = new Position(position.getRow() , position.getColumn() +1);
+                if (getBoard().positionExists(Right) && isThereOpponentPeace(Right) && getBoard().peace(Right) == chassMatch.getEnpassantVulnerable()){
+                    mat[Right.getRow() -1 ][Right.getColumn()] = true;
+                }
+            }
         }
         else {
             p.setValues(position.getRow() + 1, position.getColumn());
@@ -57,6 +71,19 @@ public class Pawn extends ChessPeace {
             p.setValues(position.getRow() + 1, position.getColumn() + 1);
             if (getBoard().positionExists(p) && isThereOpponentPeace(p)) {
                 mat[p.getRow()][p.getColumn()] = true;
+            }
+
+            //# special move enpasssant Black
+
+            if (position.getRow() == 4){
+                Position Left = new Position(position.getRow() , position.getColumn() -1);
+                if (getBoard().positionExists(Left) && isThereOpponentPeace(Left) && getBoard().peace(Left) == chassMatch.getEnpassantVulnerable()){
+                    mat[Left.getRow() +1][Left.getColumn()] = true;
+                }
+                Position Right = new Position(position.getRow() , position.getColumn() +1);
+                if (getBoard().positionExists(Right) && isThereOpponentPeace(Right) && getBoard().peace(Right) == chassMatch.getEnpassantVulnerable()){
+                    mat[Right.getRow() +1 ][Right.getColumn()] = true;
+                }
             }
         }
         return mat;
