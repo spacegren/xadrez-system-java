@@ -6,6 +6,7 @@ import boardgame.Peace;
 import boardgame.Position;
 import chess.pieces.*;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +19,9 @@ public class ChassMatch {
     private boolean checkMate;
 
     private ChessPeace enpassantVulnerable;
+
+    private ChessPeace Promoted;
+
 
 
     private List<Peace> peacesOnTheBoards = new ArrayList<>();
@@ -49,6 +53,10 @@ public class ChassMatch {
         return enpassantVulnerable;
     }
 
+    public ChessPeace getPromoted() {
+        return Promoted;
+    }
+
 
     public ChessPeace[][] getPeace(){
         ChessPeace[][] mat = new ChessPeace[board.getRows()][board.getColumns()];
@@ -78,6 +86,17 @@ public class ChassMatch {
 
         ChessPeace movedPeace =(ChessPeace)board.peace(target);
 
+        // special move promotion
+
+        Promoted = null;
+        if (movedPeace instanceof  Pawn){
+            if((movedPeace.getColor() == Color.WHITE && target.getRow() == 0) || (movedPeace.getColor() == Color.BLACK && target.getRow() ==7)){
+                Promoted = (ChessPeace) board.peace(target);
+                Promoted = replacePromotedPeace("Q");
+
+            }
+        }
+
         check = (testCheck(opponent(currentPlayer))) ? true:false;
 
         if (testCheckMate(currentPlayer)){
@@ -95,6 +114,34 @@ public class ChassMatch {
 
         }
         return (ChessPeace) capturedPeace;
+    }
+
+    public ChessPeace replacePromotedPeace(String type){
+        if (Promoted == null){
+            throw new IllegalStateException("there is not peace to be promoted");
+        }
+        if (type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")){
+            throw new InvalidParameterException("invalid type for promotion ");
+        }
+
+        Position pos = Promoted.getChessPosition().toPosition();
+        Peace p = board.peace(pos);
+        peacesOnTheBoards.remove(p);
+
+        ChessPeace newpeace = newPeace(type , Promoted.getColor());
+        board.placePeace(newpeace ,pos);
+        peacesOnTheBoards.add(newpeace);
+        return newpeace;
+
+
+
+    }
+
+    private ChessPeace newPeace(String type , Color color){
+        if (type.equals("B")) return new Bishop(board , color);
+        if (type.equals("N")) return new Knight(board , color);
+        if (type.equals("R")) return new Rook  (board , color);
+        return new Queen(board , color);
     }
 
     private Peace makeMove(Position source , Position target){

@@ -41,6 +41,15 @@ public class Program {
                    captured.add(capturedPeace);
 
                }
+
+               if (chassMatch.getPromoted() != null){
+                   System.out.println("enter peace for promotion : B/N/R/Q : ");
+                   String type = scanner.nextLine();
+                   chassMatch.replacePromotedPeace(type);
+                   
+
+
+               }
            }
            catch (ChessExeption e){
                System.out.println(e.getMessage());
