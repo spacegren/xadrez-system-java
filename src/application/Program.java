@@ -7,6 +7,7 @@ import chess.ChessExeption;
 import chess.ChessPeace;
 import chess.ChessPosition;
 
+import java.security.InvalidParameterException;
 import java.util.*;
 
 public class Program {
@@ -44,9 +45,12 @@ public class Program {
 
                if (chassMatch.getPromoted() != null){
                    System.out.println("enter peace for promotion : B/N/R/Q : ");
-                   String type = scanner.nextLine();
+                   String type = scanner.nextLine().toUpperCase();
+                   while (type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")){
+                       System.out.println("invalid value ! enter peace for promotion B/N/R/Q :");
+                       type = scanner.nextLine().toUpperCase();
+                   }
                    chassMatch.replacePromotedPeace(type);
-                   
 
 
                }
